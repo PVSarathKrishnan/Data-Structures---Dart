@@ -47,4 +47,53 @@ class SLinkList {
       head = newNode;
     }
   }
+
+  // add a item before a specific point
+  void addbef(int data, int target) {
+    Node newNode = Node(data);
+    if (head == null) {
+      print("empty");
+      return;
+    }
+    if (head!.data == target) {
+      newNode.Next = head;
+      head = newNode;
+      return;
+    }
+
+    Node? prev = null;
+    Node? temp = head;
+    while (temp != null && temp.data != target) {
+      prev = temp;
+      temp = temp.Next;
+    }
+    if (temp == null) {
+      print("Not found");
+    } else {
+      newNode.Next = temp;
+      prev!.Next = newNode;
+    }
+  }
+
+  //Add after a target
+
+  void addAft(int data, int target) {
+    Node? newNode = Node(data);
+    if (head == null) {
+      print("empty LIst");
+      return;
+    }
+
+    Node? temp = head;
+    while (temp != null && temp != target) {
+      temp = temp.Next;
+    }
+    if (temp == target) {
+      newNode.Next = temp!.Next;
+      temp.Next = newNode;
+      if (temp == tail) {
+        tail = newNode;
+      }
+    }
+  }
 }
