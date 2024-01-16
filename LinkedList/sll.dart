@@ -73,7 +73,7 @@ class SLinkList {
     }
   }
 
-  //Add after a target
+  //Add after a targe
 
   void addAft(int data, int target) {
     Node? newNode = Node(data);
