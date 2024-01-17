@@ -6,7 +6,6 @@ List<int> insertionSort(array) {
       array[prev + 1] = array[prev];
       prev--;
     }
-
     array[prev + 1] = current;
   }
 
