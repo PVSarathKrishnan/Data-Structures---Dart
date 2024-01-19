@@ -1,16 +1,17 @@
-List<int> insertionSort(array) {
-  for (var i = 1; i < array.length; i++) {
-    int current = array[i];
-    int prev = i - 1;
-    while (prev >= 0 && array[prev] > current) {
-      array[prev + 1] = array[prev];
-      prev--;
+void insertionSort(List<int> arr) {
+  int n = arr.length;
+
+  for (int i = 1; i < n; i++) {
+    int temp = arr[i];
+    int j = i - 1;
+    // Move elements of arr[0..i-1] that are greater than temp
+    // to one position ahead of their current position
+    while (j >= 0 && arr[j] > temp) {
+      arr[j + 1] = arr[j];
+      j--;
     }
-    array[prev + 1] = current;
+    arr[j + 1] = temp;
   }
-
-  return array;
-
 }
 
 void main() {
@@ -18,5 +19,6 @@ void main() {
   print("original array");
   print(array);
   print("sorted array");
-  print(insertionSort(array));
+  insertionSort(array);
+  print(array);
 }

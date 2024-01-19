@@ -1,18 +1,23 @@
-List<int> bubble(List<int> array) {
-  int? temp;
-  for (var i = 0; i < array.length - 1; i++) {
-    for (var j = 0; j < array.length - i - 1; j++) {
-      if (array[j] > array[j + 1]) {
-        temp = array[j];
-        array[j] = array[j + 1];
-        array[j + 1] = temp;
-      }
+class selection{
+  List<int> select(List<int> arr){
+    for(int i = 0;i<arr.length-1;i++){
+      int small  = i;
+      for(int j = i+1;j<arr.length;j++){
+        if(arr[small] > arr[j]){
+          small = j;
+        }
+      } 
+      int  temp = arr[small];
+      arr[small] = arr[i];
+      arr[i] = temp;
     }
+    return arr;
   }
-  return array;
 }
 
-void main() {
-  List<int> arr = [3, 9, 4, 6, 8, 7, 8, 5];
-  print(bubble(arr));
+void main(){
+  List<int> arr = [1,3,5,2,6,4,7,3];
+
+  selection s = selection();
+  print(s.select(arr));
 }
