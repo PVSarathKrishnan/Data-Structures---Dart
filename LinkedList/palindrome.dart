@@ -12,6 +12,7 @@ bool isPalindrome(Node head) {
   Node? reverse(Node node) {
     Node? prev = null;
     Node current = node;
+    // ignore: unnecessary_null_comparison
     while (current != null) {
       Node? nextNode = current.next;
       current.next = prev;
@@ -28,7 +29,7 @@ bool isPalindrome(Node head) {
   Node? reversedList = reverse(head);
 
   // Compare the reversed list with the original copy
-  while (originalCopy != null && reversedList != null) {
+  while (reversedList != null) {
     if (originalCopy.data != reversedList.data) {
       return false;
     }

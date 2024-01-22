@@ -1,44 +1,44 @@
+
+void main() {
+  List<int> array = [1, 2, 5, 6, 7, 4, 3];
+  MergeSort ms = MergeSort();
+  print(ms.merge(array));
+}
+
 class MergeSort {
   List<int> merge(List<int> array) {
     if (array.length <= 1) {
       return array;
     }
     int mid = array.length ~/ 2;
-
-    List<int> leftArray = merge(array.sublist(0, mid));
-    List<int> rightArray = merge(array.sublist(mid));
-
-    return sort(leftArray, rightArray);
+    List<int> leftArr = merge(array.sublist(0, mid));
+    List<int> rightArr = merge(array.sublist(mid));
+    return sort(leftArr, rightArr);
   }
 
-  List<int> sort(List<int> leftArray, List<int> rightArray) {
-    List<int> res = [];
+  List<int> sort(List<int> leftArr, List<int> rightArr) {
+    List<int> result = [];
     int i = 0;
     int j = 0;
-
-    while (i < leftArray.length && j < rightArray.length) {
-      if (leftArray[i] <= rightArray[j]) {
-        res.add(leftArray[i]);
+    while (i < leftArr.length && j < rightArr.length) {
+      if (leftArr[i] < rightArr[j]) {
+        result.add(leftArr[i]);
         i++;
       } else {
-        res.add(rightArray[j]);
+        result.add(rightArr[j]);
         j++;
       }
     }
-    while (i < leftArray.length) {
-      res.add(leftArray[i]);
+    while (i < leftArr.length) {
+      result.add(leftArr[i]);
       i++;
     }
-    while (j < rightArray.length) {
-      res.add(rightArray[j]);
+
+    while (j < rightArr.length) {
+      result.add(rightArr[j]);
       j++;
     }
-    return res;
-  }
-}
 
-void main() {
-  List<int> array = [1, 2, 5, 6, 7, 4, 3];
-  MergeSort ms = MergeSort();
-  print(ms.merge(array));
+    return result;
+  }
 }
