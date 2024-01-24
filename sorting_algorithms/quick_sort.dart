@@ -1,9 +1,9 @@
-
-
 void main() {
   // Example usage
   List<int> arr = [1, 4, 3, 6, 4, 3, 9];
-
+  arr.forEach((element) {
+    print(element);
+  });
   QuickSort q = QuickSort();
   print(q.quick(arr));
 }
@@ -21,7 +21,6 @@ class QuickSort {
     int pivot = start;
     int left = start + 1;
     int right = end;
-
     while (left <= right) {
       if (array[left] > array[pivot] && array[right] < array[pivot]) {
         swap(array, left, right);
