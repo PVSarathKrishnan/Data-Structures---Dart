@@ -35,6 +35,6 @@ void main() {
   }
 
   studentAges.forEach((key, value) {
-    print("$key : $value");
+    print("$key : ${value}");
   });
 }
