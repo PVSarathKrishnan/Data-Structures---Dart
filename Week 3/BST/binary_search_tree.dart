@@ -1,3 +1,5 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 class Node {
   int? data;
   Node? left, right;
@@ -71,6 +73,86 @@ class BinarySearchTree {
     }
     return closest!;
   }
+
+  int? getmin(Node? currentNode) {
+    if (currentNode!.left == null) {
+      return currentNode.data;
+    } else {
+      getmin(currentNode.left);
+    }
+  }
+
+  void delete(int data) {
+    deleteHelper(data, root, null);
+  }
+
+  void deleteHelper(int data, Node? current, Node? parent) {
+    while (current != null) {
+      if (data < current.data!) {
+        parent = current;
+        current = current.left;
+      } else if (data > current.data!) {
+        parent = current;
+        current = current.right;
+      } else {
+        //data found
+        if (current.left != null && current.right != null) {
+          //node have 2 children
+          current.data = getmin(current.right);
+          deleteHelper(data, current.right, current);
+        } else {
+          //node have 0 or 1 child
+          Node? child = (current.left != null) ? current.left : current.right;
+          if (parent == null) {
+            root = child; // node to delete is root
+          } else {
+            if (parent.left == current) {
+              parent.left = child;
+            } else {
+              parent.right = child;
+            }
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  void inOrder() {
+    inOrderHelper(root);
+  }
+
+  inOrderHelper(Node? node) {
+    if (node != null) {
+      inOrderHelper(node.left);
+      print(node.data);
+      inOrderHelper(node.right);
+    }
+  }
+
+  void preOrder() {
+    preOrderHelper(root);
+  }
+
+  void preOrderHelper(Node? node) {
+    if (node != null) {
+      print(node.data);
+      preOrderHelper(node.left);
+      preOrderHelper(node.right);
+    }
+  }
+
+  void postOrder() {
+    postOrderHelper(root);
+  }
+
+  void postOrderHelper(Node? node) {
+    if (node != null) {
+      postOrderHelper(node.left);
+      postOrderHelper(node.right);
+      print(node.data);
+    }
+  }
 }
 
 void main() {
@@ -86,25 +168,22 @@ void main() {
   // Demonstrate getClose function
 
   print(bst.getClose(15));
- 
+
+  if (isBST(bst.root, null, null)) {
+    print("The tree is a Binary Search Tree (BST).");
+  } else {
+    print("The tree is not a Binary Search Tree (BST).");
+  }
 }
- 
-  // void delete(int target) {    
-  //   deleteHelper(target, root, null);
-  // }
 
-  // void deleteHelper(int data, Node? currentNode, Node? parent) {
-  //   while (currentNode != null) {
-  //     if (data > currentNode.data!) {
-  //       //move to right
-  //       parent = currentNode;
-  //       currentNode = currentNode.right;
-  //     } else if (data < currentNode.data!) {
-  //       parent = currentNode;
-  //       currentNode = currentNode.right;
-  //     } else { //item found
-      
-  //     }
-  //   }
-  // }
+bool isBST(Node? node, int? min, int? max) {
+  if (node == null) return true;
 
+  if ((min != null && node.data! <= min) ||
+      (max != null && node.data! >= max)) {
+    //
+    return false;
+  }
+
+  return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+}

@@ -28,7 +28,8 @@ class MinHeap {
         swap(heap, currentIndex, indexToShift);
         currentIndex = indexToShift;
         leftIndex = leftChild(currentIndex);
-      } else {//already property satisfied
+      } else {
+        //already property satisfied
         return;
       }
     }
@@ -46,9 +47,30 @@ class MinHeap {
     return 2 * i + 2;
   }
 
+  int peek() {
+    return heap[0];
+  }
+
+  void remove() {
+    swap(heap, 0, heap.length - 1);
+    heap.removeLast();
+    shiftDown(0);
+  }
+
   void swap(List<int> a, int i, int j) {
     int temp = a[i];
     a[i] = a[j];
     a[j] = temp;
+  }
+
+  List<int> heapSort(MinHeap minHeap) {
+    List<int> sorted = [];
+    while (minHeap.heap.isNotEmpty) {
+      int minElement = minHeap.peek();
+      sorted.add(minElement);
+      minHeap.remove();
+    }
+
+    return sorted;
   }
 }
