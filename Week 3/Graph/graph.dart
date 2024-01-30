@@ -75,6 +75,7 @@ class Graph {
       }
     }
 
+    dfsRecursive(startVertex);
     graph.keys.forEach((vertex) {
       if (!visited.contains(vertex)) {
         dfsRecursive(vertex);
