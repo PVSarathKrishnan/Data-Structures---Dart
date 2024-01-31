@@ -3,7 +3,7 @@ import 'dart:collection';
 class Graph {
   HashMap<int, List<int>> graph = HashMap();
   //insert function
-  void insert(int vertex, int edge, bool isBiDirext) {
+  void insert(int vertex, int edge, bool isBiDirect) {
     if (!graph.containsKey(vertex)) {
       graph[vertex] = [];
     }
@@ -11,7 +11,7 @@ class Graph {
       graph[edge] = [];
     }
     graph[vertex]!.add(edge);
-    if (isBiDirext) {
+    if (isBiDirect) {
       graph[edge]!.add(vertex);
     }
   }

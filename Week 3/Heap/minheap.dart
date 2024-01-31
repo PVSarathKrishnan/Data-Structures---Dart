@@ -123,7 +123,7 @@ class minHeap {
 
   void insert(int data) {
     heap.add(data);
-    shiftUp(data);
+    shiftUp(heap.length - 1);
   }
 
   void remove() {
@@ -162,15 +162,30 @@ class minHeap {
     }
   }
 
+  //peak
+  int peek() {
+    return heap[0];
+  }
+
   //shiftUp
   void shiftUp(int currentIndex) {
     int parentIndex = parent(currentIndex);
 
-    while (currentIndex <= 0 && heap[parentIndex] > heap[currentIndex]) {
+    while (currentIndex > 0 && heap[parentIndex] > heap[currentIndex]) {
       swap(heap, currentIndex, parentIndex);
       currentIndex = parentIndex;
       parentIndex = parent(currentIndex);
     }
+  }
+
+  List<int> heapSort(minHeap m) {
+    List<int> sorted = [];
+    while (m.heap.isNotEmpty) {
+      int min = m.peek();
+      sorted.add(min);
+      m.remove();
+    }
+    return sorted;
   }
 }
 
@@ -178,4 +193,9 @@ void main() {
   List<int> arr = [7, 9, 5, 1, 4, 6, 3];
   minHeap m = minHeap(arr);
   m.display();
+  m.insert(0);
+  m.display();
+  m.remove();
+  m.display();
+  print(m.heapSort(m));
 }
