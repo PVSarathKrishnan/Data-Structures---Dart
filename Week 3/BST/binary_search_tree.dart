@@ -11,44 +11,43 @@ class BinarySearchTree {
 
   // Insert function
   void insert(int data) {
-    Node newNode = Node(data: data);
     Node? current = root;
+    Node? newNode = Node(data: data);
 
-    if (current == null) {
+    if (root == null) {
       root = newNode;
-      print("$data added as root");
+      print("as root");
       return;
     }
-
     while (true) {
-      if (data < current!.data!) {
-        if (current.left == null) {
-          current.left = newNode;
-          print("$data added left");
-          break;
-        }
-        current = current.left;
-      } else {
+      if (data > current!.data!) {
         if (current.right == null) {
           current.right = newNode;
-          print("$data added right");
+          print("right side");
           break;
         }
         current = current.right;
+      } else {
+        if (current.left == null) {
+          current.left = newNode;
+          print("left side");
+          break;
+        }
+        current = current.left;
       }
     }
   }
 
   // Contains function
   bool contains(int data) {
-    Node? current = root;
-    while (current != null) {
-      if (current.data == data) {
-        return true;
-      } else if (data > current.data!) {
-        current = current.right;
+    Node? curNode = root;
+    while (curNode != null) {
+      if (data < curNode.data!) {
+        curNode = curNode.left;
+      } else if (data > curNode.data!) {
+        curNode = curNode.right;
       } else {
-        current = current.left;
+        return true;
       }
     }
     return false;
@@ -56,17 +55,17 @@ class BinarySearchTree {
 
   // Get closest function
   int getClose(int target) {
-    Node? curNode = root;
-    int? closest = curNode!.data;
+    Node? current = root;
+    int? closest = current!.data;
 
-    while (curNode != null) {
-      if ((target - closest!).abs() > (target - curNode.data!).abs()) {
-        closest = curNode.data!;
+    while (current != null) {
+      if ((target - closest!).abs() > (target - current.data!)) {
+        closest = current.data!;
       }
-      if (target < curNode.data!) {
-        curNode = curNode.left;
-      } else if (target > curNode.data!) {
-        curNode = curNode.right;
+      if (target > current.data!) {
+        current = current.right;
+      } else if (target < current.data!) {
+        current = current.left;
       } else {
         break;
       }
@@ -118,15 +117,11 @@ class BinarySearchTree {
     }
   }
 
-  void inOrder() {
-    inOrderHelper(root);
-  }
-
-  inOrderHelper(Node? node) {
+  inOrderHelper(Node? node, List<int> arr) {
     if (node != null) {
-      inOrderHelper(node.left);
-      print(node.data);
-      inOrderHelper(node.right);
+      inOrderHelper(node.left, arr);
+      arr.add(node.data!);
+      inOrderHelper(node.right, arr);
     }
   }
 
@@ -155,25 +150,14 @@ class BinarySearchTree {
   }
 }
 
-void main() {
-  BinarySearchTree bst = BinarySearchTree();
-  bst.insert(10);
-  bst.insert(20);
-  bst.insert(5);
-  print(bst.contains(70));
-  bst.insert(70);
-  print(bst.contains(70));
-  bst.getClose(68);
-
-  // Demonstrate getClose function
-
-  print(bst.getClose(15));
-
-  if (isBST(bst.root, null, null)) {
-    print("The tree is a Binary Search Tree (BST).");
-  } else {
-    print("The tree is not a Binary Search Tree (BST).");
+bool bstCheck(List<int> arr) { // this function uses inorder traversal for bst checking : 
+  bool check = false;
+  for (var i = 0; i < arr.length - 1; i++) {
+    if (arr[i] < arr[i + 1]) {
+      check = true;
+    }
   }
+  return check;
 }
 
 bool isBST(Node? node, int? min, int? max) {
@@ -186,4 +170,21 @@ bool isBST(Node? node, int? min, int? max) {
   }
 
   return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+}
+
+void main() {
+  BinarySearchTree bst = BinarySearchTree();
+  List<int> result = [];
+  bst.insert(40);
+  bst.insert(20);
+  bst.insert(10);
+  bst.insert(60);
+  bst.insert(50);
+  bst.insert(70);
+  bst.inOrderHelper(bst.root, result);
+  print(result);
+  print(bstCheck(result));
+  print(bst.getClose(100));
+  print(isBST(bst.root, null, null));
+  
 }
