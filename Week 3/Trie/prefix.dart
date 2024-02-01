@@ -8,10 +8,6 @@ class TrieNode {
 class Trie {
   TrieNode root = TrieNode();
 
-  Trie() {
-    // Empty constructor for now
-  }
-
   void insertWord(String word) {
     TrieNode temp = root;
 
