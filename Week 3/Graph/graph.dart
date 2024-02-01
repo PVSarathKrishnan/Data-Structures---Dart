@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:mirrors';
 
 class Graph {
   HashMap<int, List<int>> graph = HashMap();
@@ -33,38 +34,68 @@ class Graph {
     }
   }
 
-  void bfsTraversal(int startVertex) {
+  // void bfsTraversal(int startVertex) {
+  //   Queue<int> queue = Queue();
+  //   Set<int> visited = Set();
+  //   queue.add(startVertex);
+  //   visited.add(startVertex);
+  //   while (queue.isNotEmpty) {
+  //     int currentVertex = queue.removeFirst();
+  //     print(currentVertex);
+
+  //     List<int>? lists = graph[currentVertex];
+  //     if (lists != null) {
+  //       for (var neighbour in lists) {
+  //         if (!visited.contains(neighbour)) {
+  //           queue.add(neighbour);
+  //           visited.add(neighbour);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   graph.keys.forEach((vertex) {
+  //     if (!visited.contains(vertex)) {
+  //       print("Disconnected vertex  : $vertex");
+  //     }
+  //   });
+  // }
+
+  void bfs(int startVertex) {
     Queue<int> queue = Queue();
     Set<int> visited = Set();
     queue.add(startVertex);
     visited.add(startVertex);
     while (queue.isNotEmpty) {
-      int currentVertex = queue.removeFirst();
+      int currentVertex = queue.removeLast();
       print(currentVertex);
 
-      List<int>? lists = graph[currentVertex];
-      if (lists != null) {
-        for (var neighbour in lists) {
-          if (!visited.contains(neighbour)) {
-            queue.add(neighbour);
-            visited.add(neighbour);
+      List<int>? neighBours = graph[currentVertex];
+
+      if (neighBours != null) {
+        for (var n in neighBours) {
+          if (!visited.contains(n)) {
+            visited.add(n);
+            queue.add(n);
           }
         }
       }
     }
-    graph.keys.forEach((vertex) {
-      if (!visited.contains(vertex)) {
-        print("Isolated vertex  : $vertex");
-      }
-    });
+
+    // graph.keys.forEach((vertex) {
+    //   if (!visited.contains(vertex)) {
+    //     visited.add(vertex);
+    //     queue.add(vertex);
+    //   }
+    // });
   }
 
   void dfs(int startVertex) {
     Set<int> visited = Set();
 
-    dfsRecursive(int currentVertex) {
+    void dfsRecursive(int currentVertex) {
       print(currentVertex);
       visited.add(currentVertex);
+
       List<int>? neighbours = graph[currentVertex];
       if (neighbours != null) {
         for (var n in neighbours) {
@@ -91,7 +122,8 @@ void main() {
   g.insert(30, 50, true);
   g.insert(50, 10, true);
   g.display();
-  g.bfsTraversal(20);
-  print("---");
+  print("-bfs-");
+  g.bfs(20);
+  print("-dfs-");
   g.dfs(20);
 }

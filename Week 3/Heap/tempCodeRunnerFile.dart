@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class MaxHeap {
   List<int> heap = [];

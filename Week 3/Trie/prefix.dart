@@ -15,7 +15,7 @@ class Trie {
   void insertWord(String word) {
     TrieNode temp = root;
 
-    for (int i = word.length - 1; i >= 0; i--) {
+    for (int i = 0; i < word.length; i++) {
       if (!temp.children.containsKey(word[i])) {
         TrieNode newNode = TrieNode();
         temp.children[word[i]] = newNode;
@@ -25,24 +25,24 @@ class Trie {
     temp.end = true; // Mark the end of the inserted word.
   }
 
-  bool containsSuffix(String suffix) {
+  bool containsPrefix(String prefix) {
     TrieNode temp = root;
 
-    for (int i = suffix.length - 1; i >= 0; i--) {
-      if (temp.children[suffix[i]] == null ||
-          !temp.children.containsKey(suffix[i])) {
+    for (int i = 0; i < prefix.length; i++) {
+      if (temp.children[prefix[i]] == null ||
+          !temp.children.containsKey(prefix[i])) {
         return false;
       }
-      temp = temp.children[suffix[i]]!;
+      temp = temp.children[prefix[i]]!;
     }
-    return true; // Return true for any suffix of inserted words.
+    return true; // Return true for any prefix of inserted words.
   }
 }
 
 void main() {
   Trie newTrie = Trie();
   newTrie.insertWord("farhan");
-  
-  print(newTrie.containsSuffix("far")); // Output: false
-  print(newTrie.containsSuffix("han")); // Output: true
+
+  print(newTrie.containsPrefix("far")); // Output: true
+  print(newTrie.containsPrefix("han")); // Output: false
 }
