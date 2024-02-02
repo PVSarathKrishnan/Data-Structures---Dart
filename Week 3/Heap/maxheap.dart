@@ -1,11 +1,7 @@
-import 'dart:ffi';
 
 class MaxHeap {
   List<int> heap = [];
 
-  MaxHeap(List<int> arr) {
-    buidHeap(arr);
-  }
 //build heap
   void buidHeap(List<int> arr) {
     heap = arr;
@@ -95,7 +91,8 @@ class MaxHeap {
 
 void main() {
   List<int> arr = [2, 4, 9, 6, 1, 7];
-  MaxHeap m = MaxHeap(arr);
+  MaxHeap m = MaxHeap();
+  m.buidHeap(arr);
   m.display();
   m.insert(10);
   print("after inserion");

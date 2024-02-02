@@ -2,7 +2,7 @@ import 'dart:collection';
 
 class TrieNode {
   HashMap<String, TrieNode> children = HashMap();
-  bool end = false;
+   bool end = false;
 }
 
 class Trie {

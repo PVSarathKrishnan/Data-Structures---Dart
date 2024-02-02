@@ -1,104 +1,80 @@
+import 'minheap.dart';
 
-class MaxHeap {
-  List<int> heap = [];
+class maxHeap {
+  List<int> Heap = [];
 
-  MaxHeap(List<int> arr) {
-    buidHeap(arr);
-  }
-//build heap
-  void buidHeap(List<int> arr) {
-    heap = arr;
-    for (int i = parent(heap.length - 1); i >= 0; i--) {
+  //buildheap function
+  void buildHeap(List<int> arr) {
+    Heap = arr;
+    for (var i = parent(Heap.length - 1); i >= 0; i--) {
       shiftDown(i);
     }
   }
 
-  void display() {
-    print(heap);
+  void insert(int data) {
+    Heap.add(data);
+    shiftUp(Heap.length - 1);
   }
 
-  parent(i) => (i - 1) ~/ 2; //parent function
+  void remove() {
+    swap(Heap, 0, Heap.length - 1);
+    Heap.removeLast();
+    shiftDown(0);
+  }
 
-  leftChild(i) => 2 * i + 1; //left child function
-
-  rightChild(i) => 2 * i + 2; //right child Function
-
-  //swap function
-  swap(List<int> arr, int i, int j) {
+  // supporting functions
+  parent(i) => (i - 1) ~/ 2;
+  leftChild(i) => (2 * i) + 1;
+  rightChild(i) => (2 * i) + 2;
+  void swap(List<int> arr, int i, int j) {
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
   }
 
-  // shift down for maxHeap
+  //display"
+  void display() {
+    print(Heap);
+  }
+
+  //shiftDown op
   void shiftDown(int currentIndex) {
-    int endIndex = heap.length - 1;
     int leftIndex = leftChild(currentIndex);
+    int endIndex = Heap.length - 1;
 
     while (leftIndex <= endIndex) {
       int rightIndex = rightChild(currentIndex);
       int indexToShift;
-
-      if (rightIndex <= endIndex && heap[rightIndex] > heap[leftIndex]) {
+      if (rightIndex <= endIndex && Heap[rightIndex] > Heap[leftIndex]) {
         indexToShift = rightIndex;
       } else {
         indexToShift = leftIndex;
       }
 
-      if (heap[currentIndex] < heap[indexToShift]) {
-        swap(heap, currentIndex, indexToShift);
+      if (Heap[currentIndex] > Heap[indexToShift]) {
+        swap(Heap, currentIndex, indexToShift);
         currentIndex = indexToShift;
         leftIndex = leftChild(currentIndex);
       } else {
-        return; //already satisfied
+        return;
       }
     }
   }
 
-  //shiftUp for Max Heap
+  //shift up
   void shiftUp(int currentIndex) {
     int parentIndex = parent(currentIndex);
-    while (currentIndex > 0 && heap[parentIndex] < heap[currentIndex]) {
-      swap(heap, currentIndex, parentIndex);
+    while (currentIndex > 0 && Heap[currentIndex] > Heap[parentIndex]) {
+      swap(Heap, currentIndex, parentIndex);
       currentIndex = parentIndex;
       parentIndex = parent(currentIndex);
     }
   }
-
-  //insertion of an element
-  void insert(int data) {
-    heap.add(data);
-    shiftUp(heap.length - 1);
-  }
-
-  void remove() {
-    swap(heap, 0, heap.length - 1);
-    heap.removeLast();
-    shiftDown(0);
-  }
-
-  int peek() {
-    return heap[0];
-  }
-
-  List<int> sorting(MaxHeap m) {
-    List<int> sorted = [];
-    while (m.heap.isNotEmpty) {
-      int max = m.peek();
-      sorted.add(max);
-      m.remove();
-    }
-    return sorted;
-  }
 }
 
 void main() {
-  List<int> arr = [2, 4, 9, 6, 1, 7];
-  MaxHeap m = MaxHeap(arr);
-  m.display();
-  m.insert(10);
-  print("after inserion");
-  m.display();
-
-  print(m.sorting(m));
+  maxHeap max = maxHeap();
+  List<int> arr = [7, 9, 5, 6, 3, 1, 4];
+  max.buildHeap(arr);
+  max.display();
 }
