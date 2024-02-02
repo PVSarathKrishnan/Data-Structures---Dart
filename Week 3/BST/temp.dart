@@ -1,175 +1,115 @@
-// // //this file is a work space
-// // class Node {
-// //   int? data;
-// //   Node? left, right;
-// //   Node({this.data});
-// // }
+class Node {
+  int? data;
+  Node? left, right;
+  Node({required this.data});
+}
 
-// // class BinaryST {
-// //   Node? root;
+class BinarySearchTree {
+  Node? root;
 
-// //   //insertion function
-// //   void insert(int data) {
-// //     Node? newNode = Node(data: data);
-// //     Node? currentNode = root;
-// //     if (root == null) {
-// //       root = newNode;
-// //       print("as root : $data");
-// //       return;
-// //     }
-// //     while (true) {
-// //       if (data > currentNode!.data!) {
-// //         if (currentNode.right == null) {
-// //           currentNode.right = newNode;
-// //           print("$data added in right because it is bigger that ${root!.data}");
-// //           return;
-// //         }
-// //         currentNode = currentNode.right;
-// //       } else {
-// //         if (currentNode.left == null) {
-// //           currentNode.left = newNode;
-// //           print("$data added in left because it is lesser that ${root!.data}");
-// //           return;
-// //         }
-// //         currentNode = currentNode.left;
-// //       }
-// //     }
-// //   }
-// // }
+  // Insert function
+  void insert(int data) {
+    Node? current = root;
+    Node? newNode = Node(data: data);
 
-// // void main() {
-// //   BinaryST bst = BinaryST();
-// //   bst.insert(50);
-// //   bst.insert(10);
-// //   bst.insert(55);
-// // }
+    if (root == null) {
+      root = newNode;
+      print("as root");
+      return;
+    }
+    while (true) {
+      if (data > current!.data!) {
+        if (current.right == null) {
+          current.right = newNode;
+          print("right side");
+          break;
+        }
+        current = current.right;
+      } else {
+        if (current.left == null) {
+          current.left = newNode;
+          print("left side");
+          break;
+        }
+        current = current.left;
+      }
+    }
+  }
 
-// // class Node {
-// //   int? data;
-// //   Node? left, right;
+  // Contains function
+  bool contains(int data) {
+    Node? curNode = root;
+    while (curNode != null) {
+      if (data < curNode.data!) {
+        curNode = curNode.left;
+      } else if (data > curNode.data!) {
+        curNode = curNode.right;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
 
-// //   Node({required this.data});
-// // }
+  // Get closest function
+  int getClose(int target) {
+    Node? current = root;
+    int? closest = current!.data;
 
-// // class BST {
-// //   Node? root;
+    while (current != null) {
+      if ((target - closest!).abs() > (target - current.data!)) {
+        closest = current.data!;
+      }
+      if (target > current.data!) {
+        current = current.right;
+      } else if (target < current.data!) {
+        current = current.left;
+      } else {
+        break;
+      }
+    }
+    return closest!;
+  }
 
-// //   //insertion
+  int? getmin(Node? currentNode) {
+    if (currentNode!.left == null) {
+      return currentNode.data;
+    } else {
+      getmin(currentNode.left);
+    }
+  }
 
-// //   void insert(int data) {
-// //     Node? newNode = Node(data: data);
-// //     Node? current = root;
-// //     if (current == null) {
-// //       root = newNode;
-// //       return;
-// //     }
-// //     while (true) {
-// //       if (data > current!.data!) {
-// //         if (current.right == null) {
-// //           current.right = newNode;
-// //           break;
-// //         }
-// //         current = current.right;
-// //       } else {
-// //         if (current.left == null) {
-// //           current.left = newNode;
-// //           break;
-// //         }
-// //         current = current.left;
-// //       }
-// //     }
-// //   }
+  void delete(int data) {
+    deleteHelper(data, root, null);
+  }
 
-// //   //contains function
-
-// //   bool contains(int data) {
-// //     Node? current = root;
-// //     if (current!.data == data) {
-// //       return true;
-// //     } else {
-// //       if (data > current.data!) {
-// //         current = current.right;
-// //       } else {
-// //         current = current.left;
-// //       }
-// //     }
-// //     return false;
-// //   }
-
-// //   //get closest function
-// //   int getClosest(int target) {
-// //     Node? current = root;
-// //     int? closest = current!.data;
-
-// //     while (current != null) {
-// //       if ((target - closest!).abs() > (target - current.data!).abs()) {
-// //         closest = current.data;
-// //       }
-// //       if (target < current.data!) {
-// //         current = current.left;
-// //       } else if (target > current.data!) {
-// //         current = current.right;
-// //       } else {
-// //         break;
-// //       }
-// //     }
-// //     return closest!;
-// //   }
-
-// //   void delete(int data) {
-// //     deleteHelper(data, root, null);
-// //   }
-
-// //   void deleteHelper(int data, Node? current, Node? parent) {
-// //     while (current != null) {
-// //       if (data < current.data!) {
-// //         parent = current;
-// //         current = current.left;
-// //       } else if (data > current.data!) {
-// //         parent = current;
-// //         current = current.right;
-// //       } else {
-// //         //data found
-// //         if (current.left != null && current.right != null) {
-// //           // 2 childs
-// //           // current.data = getMin(current.right);
-// //         }
-// //       }
-// //     }
-// //   }
-
-// //   //inOrder
-// //   void inOrder() {
-// //     inOrderHelper(root);
-// //   }
-
-// //   inOrderHelper(Node? node) {
-// //     if (node != null) {
-// //       inOrderHelper(node.left);
-// //       print(node.data);
-// //       inOrderHelper(node.right)
-// //     }
-// //   }
-// // }
-
-// class MinHeap {
-//   List<int> heap = [];
-//   maxHeap(List<int> arr) {
-//     buildHeap(arr);
-//   }
-
-//   void buildHeap(List<int> arr) {
-//     heap = arr;
-//     for (int i = parent(heap.length - 1); i >= 0; i--) {
-//       shiftDown(i);
-//     }
-//   }
-
-//   parent(i) => (i - 1) ~/ 2;
-//   leftChild(i) => (2 * i) + 1;
-//   rightChild(i) => (2 * i) + 2;
-
-//   shiftDown(i) {
-//     int end
-//   }
-// }
+  void deleteHelper(int data, Node? current, Node? parent) {
+    while (current != null) {
+      if (data > current.data!) {
+        parent = current;
+        current = current.right;
+      } else if (data < current.data!) {
+        parent = current;
+        current = current.left;
+      } else {
+        //data found
+        if (current.left != null && current.right != null) {
+          current.data = getmin(current.right);
+          deleteHelper(data, current.right, current);
+        } else {
+          Node? child = (current.left != null) ? current.left : current.right;
+          if (parent == null) {
+            root = child;
+          } else {
+            if (parent.left == current) {
+              parent.left = child;
+            } else {
+              parent.right = child;
+            }
+          }
+        }
+        break;
+      }
+    }
+  }
+}
