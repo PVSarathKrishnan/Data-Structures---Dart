@@ -1,100 +1,104 @@
-import 'dart:ffi';
+class MinHeap {
+  List<int> heap = [];
 
-class minHeap {
-  List<int> Heap = [];
-
+  //build heap functions
   void buildHeap(List<int> arr) {
-    Heap = arr;
-    for (int i = parent(Heap.length - 1); i >= 0; i--) {
+    heap = arr;
+    for (int i = parent(heap.length - 1); i >= 0; i--) {
       shiftDown(i);
     }
   }
 
+  //insert
   void insert(int data) {
-    Heap.add(data);
-    shiftUp(Heap.length - 1);
+    heap.add(data);
+    shiftUp(heap.length - 1);
   }
 
-  //remove function
+  //remove  from the peak
   void remove() {
-    swap(Heap, 0, Heap.length - 1);
-    Heap.removeLast();
+    swap(heap, 0, heap.length - 1);
+    heap.removeLast();
     shiftDown(0);
   }
 
-  //display function
-  void display() {
-    print(Heap);
-  }
-
-  //shiftDown
-  void shiftDown(int currentIndex) {
-    int leftIndex = leftChild(currentIndex);
-    int endIndex = Heap.length - 1;
-    while (leftIndex <= endIndex) {
-      int rightIndex = rightChild(currentIndex);
-      int indexToShift;
-      if (rightIndex <= endIndex && Heap[rightIndex] < Heap[leftIndex]) {
-        indexToShift = rightIndex;
-      } else {
-        indexToShift = leftIndex;
-      }
-      if (Heap[currentIndex] > Heap[indexToShift]) {
-        swap(Heap, currentIndex, indexToShift);
-        currentIndex = indexToShift;
-        leftIndex = leftChild(currentIndex);
-      } else {
-        return; // already satisfied :
-      }
-    }
-  }
-
-  //shiftUp op
-  void shiftUp(int currentIndex) {
-    int parentIndex = parent(currentIndex);
-    while (currentIndex > 0 && Heap[currentIndex] < Heap[parentIndex]) {
-      swap(Heap, currentIndex, parentIndex);
-      currentIndex = parentIndex;
-      parentIndex = parent(currentIndex);
-    }
-  }
-
   int peek() {
-    return Heap[0];
+    return heap[0];
   }
 
-  //heap sort
-  List<int> heapSort() {
-    List<int> sorted = [];
-    while (Heap.isNotEmpty) {
-      int min = peek();
-      sorted.add(min);
-      remove();
-    }
-    return sorted;
+  void display() {
+    print(heap);
   }
 
-  //build heap
-
+  // supporting functions
   parent(i) => (i - 1) ~/ 2;
   leftChild(i) => (2 * i) + 1;
   rightChild(i) => (2 * i) + 2;
-  swap(List<int> arr, int i, int j) {
+  void swap(List<int> arr, int i, int j) {
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
   }
+
+  void shiftDown(int currentIndex) {
+    int leftIndex = leftChild(currentIndex);
+    int endIndex = heap.length - 1;
+
+    while (leftIndex <= endIndex) {
+      int rightIndex = rightChild(currentIndex);
+      int indexToShift;
+      if (rightIndex <= endIndex && heap[rightIndex] < heap[leftIndex]) {
+        indexToShift = rightIndex;
+      } else {
+        indexToShift = leftIndex;
+      }
+      if (heap[indexToShift] < heap[currentIndex]) {
+        swap(heap, currentIndex, indexToShift);
+        currentIndex = indexToShift;
+        leftIndex = leftChild(currentIndex);
+      } else {
+        // heap propert satisfied
+        return;
+      }
+    }
+  }
+
+  //shifup
+  void shiftUp(int currentIndex) {
+    int parentIndex = parent(currentIndex);
+    while (currentIndex > 0 && heap[parentIndex] > heap[currentIndex]) {
+      swap(heap, parentIndex, currentIndex);
+      currentIndex = parentIndex;
+      parentIndex = parent(currentIndex);
+    }
+  }
+}
+
+List<int> heapSort(List<int> arr) {
+  List<int> sorted = [];
+  MinHeap mh = MinHeap();
+  mh.buildHeap(arr);
+  while (mh.heap.isNotEmpty) {
+    int min = mh.peek();
+    sorted.add(min);
+    mh.remove();
+  }
+  return sorted;
 }
 
 void main() {
-  minHeap min = minHeap();
-  List<int> arr = [1, 3, 5, 8, 9];
-
-  min.buildHeap(arr);
-  min.display();
-  min.insert(7);
-  min.insert(0);
-  min.display();
-
-  print(min.heapSort());
+  List<int> arr = [7, 6, 9, 2, 4, 10, 0, 8];
+  print("og array : $arr");
+  MinHeap mmm = MinHeap();
+  mmm.buildHeap(arr);
+  print("heaped array");
+  mmm.display();
+  mmm.remove();
+  print("removed peak");
+  mmm.display();
+  mmm.insert(1);
+  print("added 1");
+  mmm.display();
+  print("sorted:");
+  print(heapSort(arr));
 }

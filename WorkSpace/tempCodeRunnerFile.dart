@@ -59,50 +59,13 @@ class Graph {
       }
     });
   }
-
-  //BFS Traversal
-  void bfsTraversal(int startVertex) {
-    Queue<int> QQ = Queue();
-    Set<int> visited = Set();
-    QQ.add(startVertex);
-    visited.add(startVertex);
-
-    while (QQ.isNotEmpty) {
-      int currentVertex = QQ.removeFirst();
-      print(currentVertex);
-      List<int>? neighbours = graph[currentVertex];
-      for (var n in neighbours!) {
-        if (!visited.contains(n)) {
-          QQ.add(n);
-          visited.add(n);
-        }
-      }
-    }
-  }
 }
 
 void main() {
   Graph g = Graph();
-
-  // Inserting vertices and edges
-  g.insert(1, 2, true);
-  g.insert(1, 3, true);
-  g.insert(2, 4, true);
-  g.insert(2, 5, true);
-  g.insert(3, 6, true);
-  g.insert(3, 7, true);
-
-  // Displaying the graph
-  print("Graph:");
+  g.insert(10, 20, true);
+  g.insert(30, 10, false);
+  g.insert(40, 20, true);
+  g.insert(50, 40, true);
   g.display();
-  print("\n");
-
-  // Performing BFS traversal starting from vertex 1
-  print("BFS Traversal:");
-  g.bfsTraversal(1);
-  print("\n");
-
-  // Performing DFS traversal starting from vertex 1
-  print("DFS Traversal:");
-  g.dfsTraversal(1);
 }

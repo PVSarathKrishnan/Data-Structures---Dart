@@ -1,10 +1,11 @@
 import 'dart:collection';
-import 'dart:mirrors';
+import 'dart:ffi';
 
 class Graph {
   HashMap<int, List<int>> graph = HashMap();
-  //insert function
-  void insert(int vertex, int edge, bool isBiDirect) {
+  // insertion
+
+  void insertion(int vertex, int edge, bool isBidirect) {
     if (!graph.containsKey(vertex)) {
       graph[vertex] = [];
     }
@@ -12,19 +13,12 @@ class Graph {
       graph[edge] = [];
     }
     graph[vertex]!.add(edge);
-    if (isBiDirect) {
+    if (isBidirect) {
       graph[edge]!.add(vertex);
     }
   }
 
-  //display function
-  void display() {
-    graph.forEach((key, value) {
-      print("$key : $value");
-    });
-  }
-
-  // remove
+  //deletion
   void remove(int data) {
     if (graph.containsKey(data)) {
       graph.remove(data);
@@ -34,29 +28,15 @@ class Graph {
     }
   }
 
-  void bfs(int startVertex) {
-    Queue<int> queue = Queue();
-    Set<int> visited = Set();
-    queue.add(startVertex);
-    visited.add(startVertex);
-    while (queue.isNotEmpty) {
-      int currentVertex = queue.removeFirst();
-      print(currentVertex);
+  //display
 
-      List<int>? neighBours = graph[currentVertex];
-
-      if (neighBours != null) {
-        for (var n in neighBours) {
-          if (!visited.contains(n)) {
-            visited.add(n);
-            queue.add(n);
-          }
-        }
-      }
-    }
-
+  void display() {
+    graph.forEach((key, value) {
+      print("$key : $value");
+    });
   }
 
+  //dfs
   void dfs(int startVertex) {
     Set<int> visited = Set();
 
@@ -81,17 +61,26 @@ class Graph {
       }
     });
   }
-}
 
-void main() {
-  Graph g = Graph();
-  g.insert(20, 10, true);
-  g.insert(10, 30, true);
-  g.insert(30, 50, true);
-  g.insert(50, 10, true);
-  g.display();
-  print("-bfs-");
-  g.bfs(20);
-  print("-dfs-");
-  g.dfs(20);
+  void bfs(int startVertex) {
+    Queue<int> qq = Queue();
+    Set<int> visited = Set();
+
+    visited.add(startVertex);
+    qq.add(startVertex);
+    while (qq.isNotEmpty) {
+      int currentVertex = qq.removeFirst();
+      print(currentVertex);
+      List<int>? neighbours = graph[currentVertex];
+
+      if (neighbours != null) {
+        for (var n in neighbours) {
+          if (!visited.contains(n)) {
+            visited.add(n);
+            qq.add(n);
+          }
+        }
+      }
+    }
+  }
 }

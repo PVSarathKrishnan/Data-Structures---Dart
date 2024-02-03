@@ -69,7 +69,7 @@ class minHeap {
   void shiftUp(int currentIndex) {
     int parentIndex = parent(currentIndex);
 
-    while (currentIndex > 0 && heap[parentIndex] > heap[currentIndex]) {
+    while (currentIndex > 0 &&heap[currentIndex] < heap[parentIndex]  ) {
       swap(heap, currentIndex, parentIndex);
       currentIndex = parentIndex;
       parentIndex = parent(currentIndex);

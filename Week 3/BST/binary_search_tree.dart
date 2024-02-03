@@ -1,4 +1,3 @@
-
 class Node {
   int? data;
   Node? left, right;
@@ -80,47 +79,48 @@ class BinarySearchTree {
     }
   }
 
+  // Delete function
   void delete(int data) {
-    deleteHelper(data, root, null);
+    root = deleteHelper(data, root);
   }
 
-  void deleteHelper(int data, Node? current, Node? parent) {
-    while (current != null) {
-      if (data < current.data!) {
-        parent = current;
-        current = current.left;
-      } else if (data > current.data!) {
-        parent = current;
-        current = current.right;
+  Node? deleteHelper(int data, Node? current) {
+    if (current == null) {
+      return current;
+    }
+
+    // Recursive case: traverse the tree to find the node to delete
+    if (data < current.data!) {
+      current.left = deleteHelper(data, current.left);
+    } else if (data > current.data!) {
+      current.right = deleteHelper(data, current.right);
+    } else {
+      // Node to be deleted found
+
+      // Case 1: Node with only one child or no child
+      if (current.left == null) {
+        return current.right;
+      } else if (current.right == null) {
+        return current.left;
       } else {
-        //data found
-        if (current.left != null && current.right != null) {
-          //node have 2 children
-          current.data = getmin(current.right);
-          deleteHelper(data, current.right, current);
-        } else {
-          //node have 0 or 1 child
-          Node? child = (current.left != null) ? current.left : current.right;
-          if (parent == null) {
-            root = child; // node to delete is root
-          } else {
-            if (parent.left == current) {
-              parent.left = child;
-            } else {
-              parent.right = child;
-            }
-          }
-        }
-        break;
+        // Case 2: Node with two children
+        current.data = getmin(current.right!);
+        current.right = deleteHelper(current.data!, current.right);
       }
     }
+
+    return current;
   }
 
-  inOrderHelper(Node? node, List<int> arr) {
+  inOrder() {
+    inOrderHelper(root);
+  }
+
+  inOrderHelper(Node? node) {
     if (node != null) {
-      inOrderHelper(node.left, arr);
-      arr.add(node.data!);
-      inOrderHelper(node.right, arr);
+      inOrderHelper(node.left);
+      print(node.data!);
+      inOrderHelper(node.right);
     }
   }
 
@@ -149,7 +149,8 @@ class BinarySearchTree {
   }
 }
 
-bool bstCheck(List<int> arr) { // this function uses inorder traversal for bst checking : 
+bool bstCheck(List<int> arr) {
+  // this function uses inorder traversal for bst checking :
   bool check = false;
   for (var i = 0; i < arr.length - 1; i++) {
     if (arr[i] < arr[i + 1]) {
@@ -173,17 +174,16 @@ bool isBST(Node? node, int? min, int? max) {
 
 void main() {
   BinarySearchTree bst = BinarySearchTree();
-  List<int> result = [];
   bst.insert(40);
   bst.insert(20);
   bst.insert(10);
   bst.insert(60);
   bst.insert(50);
   bst.insert(70);
-  bst.inOrderHelper(bst.root, result);
-  print(result);
-  print(bstCheck(result));
-  print(bst.getClose(100));
+  bst.postOrder();
+  // bst.inOrderHelper(bst.root);
+  // print("==");
+  // bst.delete(20);
+  // bst.postOrder();
   print(isBST(bst.root, null, null));
-  
 }

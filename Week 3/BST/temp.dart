@@ -79,37 +79,47 @@ class BinarySearchTree {
     }
   }
 
-  void delete(int data) {
-    deleteHelper(data, root, null);
+  // Delete function
+void delete(int data) {
+  root = deleteHelper(data, root);
+}
+
+Node? deleteHelper(int data, Node? current) {
+  if (current == null) {
+    return current;
   }
 
-  void deleteHelper(int data, Node? current, Node? parent) {
-    while (current != null) {
-      if (data > current.data!) {
-        parent = current;
-        current = current.right;
-      } else if (data < current.data!) {
-        parent = current;
-        current = current.left;
-      } else {
-        //data found
-        if (current.left != null && current.right != null) {
-          current.data = getmin(current.right);
-          deleteHelper(data, current.right, current);
-        } else {
-          Node? child = (current.left != null) ? current.left : current.right;
-          if (parent == null) {
-            root = child;
-          } else {
-            if (parent.left == current) {
-              parent.left = child;
-            } else {
-              parent.right = child;
-            }
-          }
-        }
-        break;
-      }
+  // Recursive case: traverse the tree to find the node to delete
+  if (data < current.data!) {
+    current.left = deleteHelper(data, current.left);
+  } else if (data > current.data!) {
+    current.right = deleteHelper(data, current.right);
+  } else {
+    // Node to be deleted found
+
+    // Case 1: Node with only one child or no child
+    if (current.left == null) {
+      return current.right;
+    } else if (current.right == null) {
+      return current.left;
     }
+
+    // Case 2: Node with two children
+    current.data = getMinValue(current.right!);
+    current.right = deleteHelper(current.data!, current.right);
   }
+
+  return current;
+}
+
+int getMinValue(Node current) {
+  // Helper function to get the minimum value in a BST
+  int minValue = current.data!;
+  while (current.left != null) {
+    minValue = current.left!.data!;
+    current = current.left!;
+  }
+  return minValue;
+}
+
 }
