@@ -41,8 +41,9 @@ class Graph {
     Set<int> visited = Set();
 
     void dfsRecursive(int currentVertex) {
-      print(currentVertex);
       visited.add(currentVertex);
+      print(currentVertex);
+     
 
       List<int>? neighbours = graph[currentVertex];
       if (neighbours != null) {

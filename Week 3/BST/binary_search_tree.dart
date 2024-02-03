@@ -149,16 +149,7 @@ class BinarySearchTree {
   }
 }
 
-bool bstCheck(List<int> arr) {
-  // this function uses inorder traversal for bst checking :
-  bool check = false;
-  for (var i = 0; i < arr.length - 1; i++) {
-    if (arr[i] < arr[i + 1]) {
-      check = true;
-    }
-  }
-  return check;
-}
+
 
 bool isBST(Node? node, int? min, int? max) {
   if (node == null) return true;
