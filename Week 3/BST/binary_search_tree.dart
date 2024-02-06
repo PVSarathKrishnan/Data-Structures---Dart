@@ -172,9 +172,6 @@ void main() {
   bst.insert(50);
   bst.insert(70);
   bst.postOrder();
-  // bst.inOrderHelper(bst.root);
-  // print("==");
-  // bst.delete(20);
-  // bst.postOrder();
+
   print(isBST(bst.root, null, null));
 }
